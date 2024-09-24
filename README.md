@@ -8,6 +8,8 @@ project!
   alt="example landing video frame"
   width="400"/>
 
+[![Watch a video on multiple landings on YouTube](https://img.youtube.com/vi/q3VXqRNPi9Q/0.jpg)](https://www.youtube.com/watch?v=q3VXqRNPi9Q)
+
 ## Quick Instructions
 
 ```bash
