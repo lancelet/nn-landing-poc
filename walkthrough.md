@@ -58,6 +58,11 @@ Each row is a time sample. The 8 columns are (in order): `time`, `x`,
 `z`, `theta`, `vx`, `vz`, `thrust` (`u1` in the paper) and `omega` (`u2` in 
 the paper). `omega` is the rate of change of the angle of the quadcopter.
 
+An example of a plot of multiple trajectories from the training data looks
+like this, although this isn't all of them:
+
+![Example optimal trajectories](quadcopter-training-trajectories.png)
+
 ## Training
 
 Training is done using the Rust [`burn`](https://burn.dev/) library. You can
