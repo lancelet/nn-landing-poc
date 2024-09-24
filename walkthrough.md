@@ -87,7 +87,6 @@ gives you a nice interactive display like this:
   alt="training screenshot"
   width="600"/>
 
-
 During training, we sample the trajectories to produce a corpus of inputs and
 outputs:
 
