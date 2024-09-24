@@ -117,3 +117,15 @@ to a movie with `ffmpeg` like this:
 ```bash
 ffmpeg -framerate 60 -i ./animation/%05d.png -vcodec libx264 -s 1080x1080 -pix_fmt yuv420p animation.mov
 ```
+
+## CI Build
+
+There is a CI build which runs the project through its basic steps. See
+`.github/workflows/dry-run.yml`. The main differences between the CI build
+and running the project locally are:
+  - The CI build fetches some dependencies using Nix.
+  - Only 100 training trajectories are generated.
+  - The renderer for the fancy training GUI is replaced by one that dumps
+    progress to `stdout`.
+  - The `NDArray` backend is used instead of `wgpu`. I couldn't figure out
+    the trinity of Nix, WGPU and GitHub.

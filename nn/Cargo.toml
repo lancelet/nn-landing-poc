@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.89"
-burn = { version = "0.14.0", features = ["dataset", "train", "wgpu"] }
+burn = { version = "0.14.0", features = ["dataset", "train", "wgpu", "ndarray"] }
 ndarray = "0.16.1"
 ndarray-npy = "0.9.1"
 ode_solvers = "0.4.0"

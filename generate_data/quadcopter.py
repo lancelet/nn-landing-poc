@@ -21,10 +21,10 @@ Please see the top-level project README.md for information on how to run it.
 #---- Constants ---------------------------------------------------------------
 
 # Number of processes to use for data generation.
-N_PROCESSES = 8
+N_PROCESSES = int(os.getenv("GENERATE_DATA_N_PROCESSES", 8))
 
 # Number of trajectories to generate.
-N_TRAJECTORIES = 15000
+N_TRAJECTORIES = int(os.getenv("GENERATE_DATA_N_TRAJECTORIES", 15000))
 
 # Current project directory (based on the location of this file).
 PROJECT_DIR = Path(os.path.dirname(os.path.abspath(__file__))).resolve()

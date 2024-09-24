@@ -1,3 +1,5 @@
+use std::io::IsTerminal;
+
 use crate::{
     data::{load_datasets, ExampleBatcher, MeanStdev, StateMeanStdev},
     model::ModelConfig,
@@ -14,6 +16,7 @@ use burn::{
             store::{Aggregate, Direction, Split},
             LossMetric,
         },
+        renderer::MetricsRenderer,
         LearnerBuilder, MetricEarlyStoppingStrategy, StoppingCondition,
     },
 };
@@ -65,7 +68,7 @@ pub fn run<B: AutodiffBackend>(device: B::Device) -> Result<()> {
         .build(test_dataset);
 
     // Model
-    let learner = LearnerBuilder::new(ARTIFACT_DIR)
+    let learner_builder = LearnerBuilder::new(ARTIFACT_DIR)
         .metric_train_numeric(LossMetric::new())
         .metric_valid_numeric(LossMetric::new())
         .with_file_checkpointer(DefaultFileRecorder::<FullPrecisionSettings>::new())
@@ -76,9 +79,13 @@ pub fn run<B: AutodiffBackend>(device: B::Device) -> Result<()> {
             StoppingCondition::NoImprovementSince { n_epochs: 1 },
         ))
         .devices(vec![device.clone()])
-        .num_epochs(num_epochs)
-        .summary()
-        .build(model, optimizer.init(), lr);
+        .num_epochs(num_epochs);
+    let learner_builder = if !std::io::stdout().is_terminal() {
+        learner_builder.renderer(StdoutMetricsRenderer)
+    } else {
+        learner_builder
+    };
+    let learner = learner_builder.summary().build(model, optimizer.init(), lr);
 
     let model_trained = learner.fit(dataloader_train, dataloader_test);
 
@@ -90,4 +97,20 @@ pub fn run<B: AutodiffBackend>(device: B::Device) -> Result<()> {
         .expect("Failed to save trained model");
 
     Ok(())
+}
+
+struct StdoutMetricsRenderer;
+
+impl MetricsRenderer for StdoutMetricsRenderer {
+    fn update_train(&mut self, _state: burn::train::renderer::MetricState) {}
+
+    fn update_valid(&mut self, _state: burn::train::renderer::MetricState) {}
+
+    fn render_train(&mut self, item: burn::train::renderer::TrainingProgress) {
+        println!("Training iteration: {}", item.iteration);
+    }
+
+    fn render_valid(&mut self, item: burn::train::renderer::TrainingProgress) {
+        println!("Validation iteration: {}", item.iteration);
+    }
 }
