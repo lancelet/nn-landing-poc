@@ -61,7 +61,10 @@ the paper). `omega` is the rate of change of the angle of the quadcopter.
 An example of a plot of multiple trajectories from the training data looks
 like this, although this isn't all of them:
 
-![Example optimal trajectories](quadcopter-training-trajectories.png)
+<img 
+  src="quadcopter-training-trajectories.png"
+  alt="example optimal trajectories"
+  width="300"/>
 
 ## Training
 
