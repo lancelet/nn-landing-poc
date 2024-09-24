@@ -1,0 +1,11 @@
+[project]
+name = "nn-optimal-landing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dymos>=1.11.0",
+    "numpy==1.26.4",
+    "openmdao>=3.34.2",
+]

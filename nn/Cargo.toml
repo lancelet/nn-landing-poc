@@ -1,0 +1,27 @@
+[package]
+name = "train_quadcopter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.89"
+burn = { version = "0.14.0", features = ["dataset", "train", "wgpu"] }
+ndarray = "0.16.1"
+ndarray-npy = "0.9.1"
+ode_solvers = "0.4.0"
+palette = "0.7.6"
+plotpy = "1.7.4"
+plotters = "0.3.7"
+rand = "0.8.5"
+regex = "1.10.6"
+resvg = "0.43.0"
+svg = "0.17.0"
+tiny-skia = "0.11.4"
+
+[[bin]]
+name = "train"
+path = "src/bin/main_train.rs"
+
+[[bin]]
+name = "vis_results"
+path = "src/bin/main_vis_results.rs"
