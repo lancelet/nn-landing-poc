@@ -79,6 +79,15 @@ cd nn
 cargo run --release --bin train
 ```
 
+When training is underway, it should display the `burn` training UI, which
+gives you a nice interactive display like this:
+
+<img 
+  src="training-screenshot.png"
+  alt="training screenshot"
+  width="600"/>
+
+
 During training, we sample the trajectories to produce a corpus of inputs and
 outputs:
 
