@@ -3,7 +3,10 @@
 WARNING: This is an initial proof-of-concept, not a carefully polished 
 project!
 
-![Frame from example landing video](example-landing.png)
+<img 
+  src="example-landing.png"
+  alt="example landing video frame"
+  width="400"/>
 
 ## Quick Instructions
 
