@@ -1,10 +1,13 @@
+use std::env;
 use std::f32::consts::PI;
 use std::fs::create_dir_all;
 
 use anyhow::{bail, Result};
+use burn::backend::ndarray::NdArrayDevice;
 use burn::backend::wgpu::WgpuDevice;
-use burn::backend::Wgpu;
+use burn::backend::{NdArray, Wgpu};
 use burn::module::Module;
+use burn::prelude::Backend;
 use burn::record::{DefaultFileRecorder, FullPrecisionSettings};
 
 use plotpy::{Curve, Plot};
@@ -21,10 +24,18 @@ fn main() -> Result<()> {
     println!("Trained Model Visualization");
 
     // Load the model weights from the trained file.
-    let device = WgpuDevice::default();
+    if env::var("INFERENCE_USE_NDARRAY").is_ok() {
+        let device = NdArrayDevice::default();
+        run_inference::<NdArray>(device)
+    } else {
+        let device = WgpuDevice::default();
+        run_inference::<Wgpu>(device)
+    }
+}
+
+fn run_inference<B: Backend>(device: B::Device) -> Result<()> {
     let file_path = "./burn-training-artifacts/model.mpk";
-    let config = ModelConfig::new();
-    let model = config.init::<Wgpu>(&device);
+    let model = ModelConfig::new().init::<B>(&device);
     let model = model.load_file(
         file_path,
         &DefaultFileRecorder::<FullPrecisionSettings>::new(),

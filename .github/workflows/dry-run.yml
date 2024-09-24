@@ -1,0 +1,45 @@
+name: "Dry Run"
+on:
+  pull_request:
+  push:
+jobs:
+  run_steps_from_readme:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v3
+      with:
+        path: |
+          nn/target
+        key: ${{ runner.os }}-cache
+    - uses: cachix/install-nix-action@v27
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+        
+    - name: Compile Rust Code
+      run: |
+        echo "Compiling Rust Code"
+        pushd nn
+        nix develop . --command cargo build --release
+        popd
+
+    - name: Generate Optimized Trajectories
+      run: |
+        echo "Generating Optimised Trajectories"
+        pushd generate_data
+        nix develop . --command env GENERATE_DATA_N_TRAJECTORIES=100 uv run quadcopter.py
+        popd
+        
+    - name: Run Training
+      run: |
+        echo "Running Training"
+        pushd nn
+        nix develop . --command env TRAIN_USE_NDARRAY=1 cargo run --release --bin train
+        popd
+        
+    - name: Run Inference
+      run: |
+        echo "Running Inference"
+        pushd nn
+        nix develop . --command env INFERENCE_USE_NDARRAY=1 cargo run --release --bin vis_results
+        popd
