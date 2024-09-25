@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quadcopter Landing - Neural Network Controller</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <script>
+        window.MathJax = {
+            loader: { load: ['[tex]/ams'] },
+            tex: { packages: { '[+]': ['ams'] } }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: "IBM Plex Sans", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .reveal h1 {
+            font-family: "IBM Plex Sans", sans-serif;
+            font-size: 52px;
+            margin-bottom: 60px;
+        }
+
+        .reveal h2,
+        .reveal h3,
+        .reveal h4,
+        .reveal h5,
+        .reveal h6 {
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+
+        .reveal p,
+        .reveal li {
+            font-family: "IBM Plex Sans", sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>Quadcopter Landing<br />Neural Network Controller</h1>
+                <p>Jonathan Merritt<br />
+                    Sydney Functional Programming Group<br />
+                    September 2024</p>
+                <button class="fullscreenButton">Go Fullscreen</button>
+            </section>
+            <section>
+                \[
+                \begin{array}{c}
+                f_{\textrm{expensive}} : \mathbb{R}^n \rightarrow \mathbb{R}^m \\
+                \hspace{5em} \Bigg\downarrow \scriptsize\textrm{ neural network} \\
+                f_{\textrm{cheap}} : \mathbb{R}^n \rightarrow \mathbb{R}^m
+                \end{array}
+                \]
+            </section>
+            <section>
+                <h2>Problem</h2>
+                <p class="fragment fade-in" style="font-size: 30px">
+                    \[
+                    [ x, z, \theta, v_x, v_z ]_{\textrm{initial}} \rightarrow [ x, z, \theta, v_x, v_z
+                    ]_{\textrm{final}}
+                    \]
+                </p>
+                <p class="fragment fade-in" style="font-size: 30px">
+                    \[
+                    \begin{eqnarray}
+                    \dot{x} &=& v_x \\
+                    \dot{z} &=& v_z \\
+                    \dot{v_x} &=& T \sin(\theta) \\
+                    \dot{v_z} &=& T \cos(\theta) \\
+                    \dot{\theta} &=& \omega
+                    \end{eqnarray}
+                    \]
+                </p>
+                <p class="fragment fade-in">Using the least energy</p>
+                <p class="fragment fade-in">Produce optimal control signals: \(T\) and \(\omega\)</p>
+            </section>
+            <section>
+                <h2>Training Data</h2>
+                <p>Trajectory Optimization</p>
+                <ul>
+                    <li>Shooting Method</li>
+                    <li>Collocation Method</li>
+                    <li><code>dymos</code> package in Python</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Training</h2>
+                <ul>
+                    <li>Rust <code>burn</code> crate</li>
+                    <li>5-layer feed-forward network</li>
+                    <li>Input: state vector: \( [x, z, \theta, v_x, v_z] \) </li>
+                    <li>Output: instantaneous controls: \( [T, \omega] \)</li>
+                </ul>
+            </section>
+            <section>
+                <h2>Results</h2>
+                <iframe width="600" height="600"
+                    src="https://www.youtube.com/embed/q3VXqRNPi9Q?autoplay=1&loop=1&playlist=q3VXqRNPi9Q"
+                    title="YouTube video player" frameborder="0" allowfullscreen>
+                </iframe>
+            </section>
+        </div>
+    </div>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

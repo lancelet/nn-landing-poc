@@ -1,0 +1,30 @@
+name: Publish GH Pages
+on:
+  push:
+    branches: ["main"]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.5.1
+      - name: Build site
+        run: |
+          pushd slides
+          npm install && npm run build
+          popd
+      - name: Upload GitHub pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "slides/dist/"
+      - name: Deploy to GitHub pages
+        uses: actions/deploy-pages@v4
