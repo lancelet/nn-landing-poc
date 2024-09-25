@@ -1,6 +1,7 @@
 # Quadcopter Optimal Landing: Neural Network Controller
 
 ![GitHub CI](https://github.com/lancelet/nn-landing-poc/actions/workflows/dry-run.yml/badge.svg)
+![GitHub CI](https://github.com/lancelet/nn-landing-poc/actions/workflows/publish-gh-pages.yml/badge.svg)
 
 WARNING: This is an initial proof-of-concept, not a carefully polished 
 project!
