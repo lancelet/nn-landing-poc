@@ -16,3 +16,6 @@ generate_data/openmdao_checks.out
 nn/animation
 nn/burn-training-artifacts
 nn/target
+.parcel-cache
+slides/dist
+slides/node_modules

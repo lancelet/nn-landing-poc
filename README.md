@@ -30,3 +30,9 @@ popd
 ```
 
 See [here](walkthrough.md) for a detailed walkthrough.
+
+## Slides
+
+There are some slides from a presentation to the Sydney Functional Programming
+Group here: 
+[https://lancelet.github.io/nn-landing-poc](https://lancelet.github.io/nn-landing-poc).
